@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="col-md-4">
+        <form [formGroup]="dataForm" (ngSubmit)="onSubmit()">
+            <input class="form-control" formControlName="id" type="hidden" />
+            <div class="form-group">
+                <label>First name</label>
+                <input class="form-control" formControlName="firstname" />
+                <p class="alert alert-warning" [hidden]="dataForm.controls.firstname.valid || (dataForm.controls.firstname.pristine && !submitted)">
+                    Please enter your name.
+                </p>
+            </div>
+            <div class="form-group">
+                <label>Last name</label>
+                <input class="form-control" formControlName="lastname" />
+                <p class="alert alert-warning" [hidden]="dataForm.controls.lastname.valid || (dataForm.controls.lastname.pristine && !submitted)">
+                    Please enter your last name.
+                </p>
+            </div>
+            <!--- Patient's symptoms --------------------->
+
+            <h4>What symptoms do you have?</h4>
+            <form [formGroup]="symptomsForm" (ngSubmit)="onSubmit()">
+                <div *ngFor="let symptom of symptomsList">
+                    <input type="checkbox" (change)="onChange(symptom.name, $event.target.checked)" />
+                    {{ symptom.name }}
+                </div>
+            </form>
+            <br>
+            <div class="form-group">
+                <button type="submit" [disabled]="!dataForm.valid" class="btn btn-primary">Edit</button>
+                <button class="btn btn-default" routerLink="/home">Back</button>
+            </div>
+        </form>
+    </div>
+</div>

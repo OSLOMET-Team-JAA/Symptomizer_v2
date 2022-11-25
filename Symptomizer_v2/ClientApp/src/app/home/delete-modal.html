@@ -1,0 +1,13 @@
+﻿<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Are you sure want to delete patient</h4>
+    </div>
+    <div class="modal-body">
+        {{ firstname }} ?
+    </div>
+    <div class="modal-footer">
+        <!-- first button will be "default" due to start when "enter" presses -->
+        <button type="button" class="btn btn-default" (click)="modal.close('Close')">Close</button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Delete')">Delete</button>
+    </div>
+</div>
