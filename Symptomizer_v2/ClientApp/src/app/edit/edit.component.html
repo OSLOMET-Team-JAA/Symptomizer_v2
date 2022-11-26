@@ -1,35 +1,68 @@
-<div class="container">
-    <div class="col-md-4">
-        <form [formGroup]="dataForm" (ngSubmit)="onSubmit()">
-            <input class="form-control" formControlName="id" type="hidden" />
-            <div class="form-group">
-                <label>First name</label>
-                <input class="form-control" formControlName="firstname" />
-                <p class="alert alert-warning" [hidden]="dataForm.controls.firstname.valid || (dataForm.controls.firstname.pristine && !submitted)">
-                    Please enter your name.
-                </p>
+<div class="form-1-container section-container">
+    <div class="container">
+        <div class="row">
+            <div class="col form-1 section-description wow fadeIn">                
+                <div class="divider-1 wow fadeInUp"><span></span></div>
             </div>
-            <div class="form-group">
-                <label>Last name</label>
-                <input class="form-control" formControlName="lastname" />
-                <p class="alert alert-warning" [hidden]="dataForm.controls.lastname.valid || (dataForm.controls.lastname.pristine && !submitted)">
-                    Please enter your last name.
-                </p>
-            </div>
-            <!--- Patient's symptoms --------------------->
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-1 form-1-box wow fadeInUp">
 
-            <h4>What symptoms do you have?</h4>
-            <form [formGroup]="symptomsForm" (ngSubmit)="onSubmit()">
-                <div *ngFor="let symptom of symptomsList">
-                    <input type="checkbox" (change)="onChange(symptom.name, $event.target.checked)" />
-                    {{ symptom.name }}
-                </div>
-            </form>
-            <br>
-            <div class="form-group">
-                <button type="submit" [disabled]="!dataForm.valid" class="btn btn-primary">Edit</button>
-                <button class="btn btn-default" routerLink="/home">Back</button>
+                <form action="" method="get" [formGroup]="dataForm" (ngSubmit)="onSubmit()">
+                    <h2>Please correct your answers:</h2>
+                    <!-- Patients' Credentials  -->
+                    <fieldset class="form-group border p-3">
+                        <legend class="w-auto px-2">Patient's Credentials</legend>
+                        <input type="hidden" id="id" />
+                        <div class="form-group">
+                            <label for="firstname">First name:</label>
+                            <input type="text" class="form-control" id="firstname" placeholder="First name..." name="firstname">
+                            <span id="failFirsName" style="color:red"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Last name:</label>
+                            <input type="text" class="form-control" id="lastname" placeholder="Last name..." name="lastname">
+                            <span id="failLastName" style="color:red"></span>
+                        </div>
+                    </fieldset>
+                    <!-- Patient's symptoms  -->
+                    <fieldset class="form-group border p-3">
+                        <legend class="w-auto px-2">What symptoms do you have?</legend>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="preferences" id="symptom1" value="Fever or chills">
+                            <label class="form-check-label" for="symptom1">Fever or chills</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="preferences" id="symptom2" value="Cough">
+                            <label class="form-check-label" for="symptom2">Cough</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="preferences" id="symptom3" value="Sore throat">
+                            <label class="form-check-label" for="symptom3">Sore throat</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="preferences" id="symptom4" value="High temperature">
+                            <label class="form-check-label" for="symptom4">High temperature</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="preferences" id="symptom5" value="Shortness of breath or difficulty breathing">
+                            <label class="form-check-label" for="symptom5">Shortness of breath or difficulty breathing</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="preferences" id="symptom6" value="Muscle or body aches">
+                            <label class="form-check-label" for="symptom6">Muscle or body aches</label>
+                        </div>
+                    </fieldset>
+                    <!-- Apply Button  -->
+                    <div class="form-group row text-center">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button class="btn btn-default" routerLink="/home">Back</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
+

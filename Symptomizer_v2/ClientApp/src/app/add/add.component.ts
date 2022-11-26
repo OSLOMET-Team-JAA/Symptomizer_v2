@@ -15,6 +15,7 @@ export interface Symptoms {
 export class AddComponent {
     dataForm: FormGroup;
     symptomsForm: FormGroup;
+
     allSymptoms = [];
 
     symptomsList: Symptoms[] = [
