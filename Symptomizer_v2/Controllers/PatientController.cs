@@ -14,7 +14,7 @@ namespace Symptomizer_v2.Controllers
     {
         private IPatientRepository _db;
         private ILogger<PatientController> _log;
-        // private const string _loggedIn = "loggedIn";
+        private const string _loggedIn = "loggedIn";
 
         public PatientController(IPatientRepository db, ILogger<PatientController> log)
         {
@@ -24,10 +24,10 @@ namespace Symptomizer_v2.Controllers
         [HttpPost]
         public async Task<ActionResult> AddPatient(Patient p)
         {
-            // if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
-            // {
-            //     return Unauthorized();
-            // }
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
+            {
+                return Unauthorized();
+            }
             if (ModelState.IsValid)
             {
                 bool returnOk = await _db.AddPatient(p);
@@ -46,10 +46,10 @@ namespace Symptomizer_v2.Controllers
         [HttpGet]
         public async Task<ActionResult> FindAll()
         {
-            // if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
-            // {
-            //     return Unauthorized();
-            // }
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
+            {
+                return Unauthorized();
+            }
             List<Patient> allPatients = await _db.FindAll();
             //We can also use "var allPatients" instead of List<> (List<> usage not required)
             return Ok(allPatients);
@@ -58,10 +58,10 @@ namespace Symptomizer_v2.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePatient(int id)
         {
-            // if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
-            // {
-            //     return Unauthorized();
-            // }
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
+            {
+                return Unauthorized();
+            }
             bool returnOk = await _db.DeletePatient(id);
             if (!returnOk)
             {
@@ -74,10 +74,10 @@ namespace Symptomizer_v2.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> FindPatient(int id)
         {
-            // if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
-            // {
-            //     return Unauthorized();
-            // }
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
+            {
+                return Unauthorized();
+            }
             Patient foundPatient = await _db.FindPatient(id);
             if (foundPatient == null)
             {
@@ -90,10 +90,10 @@ namespace Symptomizer_v2.Controllers
         [HttpPut]
         public async Task<ActionResult> EditPatient(Patient eP)
         {
-            // if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
-            // {
-            //     return Unauthorized();
-            // }
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
+            {
+                return Unauthorized();
+            }
             if (ModelState.IsValid)
             {
                 bool returnOk = await _db.EditPatient(eP);
@@ -108,29 +108,29 @@ namespace Symptomizer_v2.Controllers
             return BadRequest("Inputs' validation failed");
         }
 
-        // [HttpGet]
-        // public async Task<ActionResult> LoggIn(User user)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         bool returnOk = await _db.LoggIn(user);
-        //         if (!returnOk)
-        //         {
-        //             _log.LogInformation("Failed to logg in with user name {user.Username}", user.Username);
-        //             HttpContext.Session.SetString(_loggedIn, "");
-        //             return Ok(false);
-        //         }
-        //         HttpContext.Session.SetString(_loggedIn, "loggedIn");
-        //         return Ok(true);
-        //     }
-        //     _log.LogInformation("Fail in input validation");
-        //     return BadRequest("Fail in input validation on server side");
-        // }
-        //
-        // [HttpGet]
-        // public void LoggOut()
-        // {
-        //     HttpContext.Session.SetString(_loggedIn, "");
-        // }
+        [HttpPost]
+        public async Task<ActionResult> LoggIn(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                bool returnOk = await _db.LoggIn(user);
+                if (!returnOk)
+                {
+                    _log.LogInformation("Failed to logg in with user name: {UserName}", user.Username);
+                    HttpContext.Session.SetString(_loggedIn, "");
+                    return Ok(false);
+                }
+                HttpContext.Session.SetString(_loggedIn, "loggedIn");
+                return Ok(true);
+            }
+            _log.LogInformation("Fail in input validation");
+            return BadRequest("Fail in input validation on server side");
+        }
+        
+        [HttpPost]
+        public void LoggOut()
+        {
+            HttpContext.Session.SetString(_loggedIn, "");
+        }
     }
 }

@@ -28,16 +28,16 @@ namespace Symptomizer_v2.DAL
                 context.Patients.Add(patient2);
 
                 //--Creating predefined user -------------------------------//
-                // var user = new Users
-                // {
-                //     Username = "Admin"
-                // };
-                // var password = "Admin11";
-                // byte[] salt = PatientRepository.CreateSalt(); //can be used var instead
-                // byte[] hash = PatientRepository.CreateHash(password, salt); //can be used var instead
-                // user.Password = hash;
-                // user.Salt = salt;
-                // context.Users.Add(user);
+                var user = new Users
+                {
+                    Username = "Admin"
+                };
+                var password = "Admin123";
+                byte[] salt = PatientRepository.CreateSalt(); //can be used var instead
+                byte[] hash = PatientRepository.CreateHash(password, salt); //can be used var instead
+                user.Password = hash;
+                user.Salt = salt;
+                context.Users.Add(user);
 
 
                 context.SaveChanges();

@@ -11,6 +11,6 @@ namespace Symptomizer_v2.DAL
         Task<bool> DeletePatient(int id);
         Task<Patient> FindPatient(int id);
         Task<bool> EditPatient(Patient eP);
-        // Task<bool> LoggIn(User user);
+        Task<bool> LoggIn(User user);
     }
 }

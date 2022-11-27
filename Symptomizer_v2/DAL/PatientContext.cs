@@ -22,13 +22,13 @@ namespace Symptomizer_v2.DAL
         public virtual List<Patients> Patients { get; set; }
     }
 
-    // public class Users
-    // {
-    //     public int Id { get; set; }
-    //     public string Username { get; set; }
-    //     public byte[] Password { get; set; }
-    //     public byte[] Salt { get; set; }
-    // }
+    public class Users
+    {
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public byte[] Password { get; set; }
+        public byte[] Salt { get; set; }
+    }
 
     public class PatientContext : DbContext
     {
@@ -38,9 +38,9 @@ namespace Symptomizer_v2.DAL
             Database.EnsureCreated();
         }
 
-        public virtual DbSet<Patients> Patients { get; set; }
-        public virtual DbSet<Diseases> Diseases { get; set; }
-        // public virtual DbSet<Users> Users { get; set; }
+        public DbSet<Patients> Patients { get; set; }
+        public DbSet<Diseases> Diseases { get; set; }
+        public DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

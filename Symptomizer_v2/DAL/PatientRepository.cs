@@ -145,42 +145,42 @@ namespace Symptomizer_v2.DAL
             //return true;
         }
 
-        // public static byte[] CreateHash(string password, byte[] salt)
-        // {
-        //     return KeyDerivation.Pbkdf2(
-        //         password: password,
-        //         salt: salt,
-        //         prf: KeyDerivationPrf.HMACSHA512,
-        //         iterationCount: 1000,
-        //         numBytesRequested: 32);
-        // }
-        //
-        // public static byte[] CreateSalt()
-        // {
-        //     var csp = new RNGCryptoServiceProvider();
-        //     var salt = new byte[24];
-        //     csp.GetBytes(salt);
-        //     return salt;
-        // }
-        //
-        // public async Task<bool> LoggIn(User user)
-        // {
-        //     try
-        //     {
-        //         Users foundUser = await _db.Users.FirstOrDefaultAsync(u => u.Username == user.Username);
-        //         byte[] hash = CreateHash(user.Password, foundUser.Salt);
-        //         bool ok = hash.SequenceEqual(foundUser.Password);
-        //         if (ok)
-        //         {
-        //             return true;
-        //         }
-        //         return false;
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         _log.LogInformation(e.Message);
-        //         return false;
-        //     }
-        // }
+        public static byte[] CreateHash(string password, byte[] salt)
+        {
+            return KeyDerivation.Pbkdf2(
+                password: password,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA512,
+                iterationCount: 1000,
+                numBytesRequested: 32);
+        }
+        
+        public static byte[] CreateSalt()
+        {
+            var csp = new RNGCryptoServiceProvider();
+            var salt = new byte[24];
+            csp.GetBytes(salt);
+            return salt;
+        }
+        
+        public async Task<bool> LoggIn(User user)
+        {
+            try
+            {
+                Users foundUser = await _db.Users.FirstOrDefaultAsync(u => u.Username == user.Username);
+                byte[] hash = CreateHash(user.Password, foundUser.Salt);
+                bool ok = hash.SequenceEqual(foundUser.Password);
+                if (ok)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return false;
+            }
+        }
     }
 }
