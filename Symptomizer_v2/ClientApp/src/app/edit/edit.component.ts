@@ -1,19 +1,28 @@
-﻿
-import { Component, OnInit } from "@angular/core";
+﻿import { Component } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup, Validators, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Patient } from "../Patient";
 
-
 @Component({
-    templateUrl: "edit.component.html"
+    templateUrl: 'edit.component.html'
 })
 
-export class EditComponent implements OnInit {
+export class EditComponent {
     dataForm: FormGroup;
-    checkedSymptoms = []
-    allSymptoms = []
+    symptomsForm: FormGroup;
+    getSymptoms = [];
+    allSymptoms = [];
+    
+    
+    symptomsList: any = [
+        { id: 1, name: 'Fever or chills'},
+        { id: 2, name: 'Cough'},
+        { id: 3, name: 'Sore throat' },
+        { id: 4, name: 'High temperature'},
+        { id: 5, name: 'Shortness of breath or difficulty breathing'},
+        { id: 6, name: 'Muscle or body aches' },
+    ]    
 
     validation = {
         id: [""],
@@ -25,27 +34,34 @@ export class EditComponent implements OnInit {
         ]
     }
 
-    constructor(private http: HttpClient,
-        private route: ActivatedRoute, private fb: FormBuilder, private router: Router) {
-        this.dataForm = fb.group(this.validation);
-        
+    constructor(private http: HttpClient, private fb: FormBuilder,
+                private route: ActivatedRoute, private router: Router) {
+        this.dataForm = fb.group(
+            this.validation,
+            );
+        this.symptomsForm = this.fb.group({
+            isArray: this.fb.array([], [Validators.required])
+        });
     }
 
-    // symptoms = (this.symptomsForm.controls.name as FormArray);
-    // onChange(name: string, isChecked: boolean) {
-    //     const symptomsNameList = (this.symptomsForm.controls.name as FormArray);
-    //
-    //     if (isChecked) {
-    //         symptomsNameList.push(new FormControl(name));
-    //         this.allSymptoms.push(name)
-    //     } else {
-    //         const index = symptomsNameList.controls.findIndex(x => x.value === name);
-    //         symptomsNameList.removeAt(index);
-    //         this.allSymptoms.splice(index);
-    //     }
-    //     console.log(symptomsNameList)
-    // }
+    onChange(name: string, isChecked: boolean) {
+        
+        if(isChecked){
+            this.allSymptoms.push(name);
+        }
+        else {
+            this.remove(name,this.allSymptoms);         
+        }
 
+        console.log("SymptomsArray list have: ")
+        console.log(this.allSymptoms)
+        
+    }
+    
+    remove(value, array){
+        return array.filter(item => item !== value)
+    }
+    
     findDisease(symptoms) {
         const flu = ["Fever or chills", "Cough", "Sore throat", "High temperature", "Muscle or body aches"]
         const covid_19 = ["Fever or chills", "Cough", "Sore throat", "High temperature", "Shortness of breath or difficulty breathing", "Muscle or body aches"]
@@ -61,96 +77,69 @@ export class EditComponent implements OnInit {
         }
     }
 
-
     ngOnInit() {
-         this.route.params.subscribe(params => {
-           this.editPatient(params.id);
-         });        
+        this.route.params.subscribe(params => {            
+            this.editPatient(params.id);
+        })
     }
 
     onSubmit() {
-        this.checkCheckBoxes();        
-        this.patientToEdit();
+        this.updatePatientInfo();
     }
-    
+
     editPatient(id: number) {
         this.http.get<Patient>("api/Patient/" + id)
             .subscribe(
                 p => {
-                    document.getElementById("id").setAttribute('value', ""+p.id);                    
-                    document.getElementById("firstname").setAttribute('value', ""+p.firstname);
-                    document.getElementById("lastname").setAttribute('value', ""+p.lastname);
-                    this.checkedSymptoms = (p.symptoms).split(',')
-                    console.log("After split")
-                    console.log(this.checkedSymptoms)                   
+                    this.dataForm.patchValue({ id: p.id });
+                    this.dataForm.patchValue({ firstname: p.firstname });
+                    this.dataForm.patchValue({ lastname: p.lastname });
                     
-                    // Collecting all selectors with symptoms ids
-                    const nodeList = document.querySelectorAll('[id^="symptom"]') as NodeListOf<HTMLInputElement> ;                    
-                    // Loop through all nodes in nodeList
-                    nodeList.forEach(symptom => {
-                        // comparing array values of checkedSymptoms and values from nodeList
-                        for(let i=0; i< this.checkedSymptoms.length;i++){
-                            if(this.checkedSymptoms[i] == symptom.value){
-                                symptom.checked = true;
-                            }
-                        }
-                    });
+                    this.getSymptoms = (p.symptoms).split(',');         
+                    console.log("recovered symptoms are: ")
+                    console.log(this.getSymptoms)
+                    console.log("type of array with symptoms is: ")
+                    console.log(typeof(this.getSymptoms))
+
+                    // // Symptoms recovery procedure. Collecting all selectors with symptoms ids
+                    // const nodeList = document.querySelectorAll('[id^="symptom"]') as NodeListOf<HTMLInputElement>;
+                    // console.log("NodeList is. ")
+                    // console.log(nodeList)
+                    // // Loop through all nodes in nodeList
+                    // nodeList.forEach(symptom => {
+                    //     // comparing array values of checkedSymptoms and values from nodeList
+                    //     for(let i=0; i< this.allSymptoms.length;i++){
+                    //         if(this.allSymptoms[i] == symptom.value){
+                    //             symptom.checked = true;
+                    //         }                          
+                    //     }                        
+                    // });
+                    // console.log(this.symptomsList)
                 },
                 error => console.log(error)
             );
     }
 
-    checkCheckBoxes(){
-        // Collecting all selectors with symptoms ids
-        const chBox = document.querySelectorAll('[id^="symptom"]') as NodeListOf<HTMLInputElement>;
-        // Loop through all nodes in nodeList
-        chBox.forEach(symptom => {
-            if(symptom.checked){
-                this.allSymptoms.push(symptom.value);
-            }            
-        });
-        console.log(this.allSymptoms)
-        console.log(this.allSymptoms.toString())
-    }
     
-       
-    patientToEdit() {
-        const id: number = 0;
-        const firstname: string = "";
-        const lastname: string = "";
-        const readData = [];
-        const readCheckBoxes = document.querySelectorAll('[id="id"], [id="firstname"], [id="lastname"]') as NodeListOf<HTMLInputElement>;
-        readCheckBoxes.forEach(r => {
-            if(readCheckBoxes != null){
-                readData.push(r.value);
-            }
-        })
-        console.log(readCheckBoxes)
-        
-        // const ePatient2 = {
-        //     id: readData[0],
-        //     firstname: readData[1],
-        //     lastname: readData[2],
-        //     symptoms: this.allSymptoms.toString(),
-        //     disease: this.findDisease(this.allSymptoms)
-        // }
-        
-        const ePatient = new Patient();
-        ePatient.id = this.dataForm.value.id;
-        ePatient.firstname = this.dataForm.value.firstname;
-        ePatient.lastname = this.dataForm.value.lastname;
-        ePatient.symptoms = this.allSymptoms.toString();
-        ePatient.disease = this.findDisease(this.allSymptoms);
+    updatePatientInfo(){
+        console.log("allSymptoms list have: ")
+        console.log(this.allSymptoms)
+        const  updatedPatient = new Patient();
+        updatedPatient.id = this.dataForm.value.id;
+        updatedPatient.firstname = this.dataForm.value.firstname;
+        updatedPatient.lastname = this.dataForm.value.lastname;
+        updatedPatient.symptoms = this.allSymptoms.toString();
+        updatedPatient.disease = this.findDisease(this.allSymptoms);
 
-        this.http.put("api/Patient/", ePatient, { responseType: 'text' })
+        this.http.put("api/Patient/", updatedPatient, {responseType: "text"})
             .subscribe(
-                result => {
-                    console.log(result)
+                reply => {
+                    console.log(reply)                    
                     this.router.navigate(['/home']);
                 },
                 error => console.log(error)
             );
     }
+    
 }
 
-// https://developer.mozilla.org/en-US/docs/Web/API/NodeList
