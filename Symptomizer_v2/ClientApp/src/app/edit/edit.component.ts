@@ -40,26 +40,34 @@ export class EditComponent {
             this.validation,
             );
         this.symptomsForm = this.fb.group({
-            isArray: this.fb.array([], [Validators.required])
+            sForm: this.fb.array([], [Validators.required])
         });
     }
 
-    onChange(name: string, isChecked: boolean) {
-        
-        if(isChecked){
-            this.allSymptoms.push(name);
-        }
-        else {
-            this.remove(name,this.allSymptoms);         
-        }
+    onChange(isChecked) {
+        let value = isChecked.target.value;
+        let check = isChecked.target.checked;
+        const sForm: FormArray = this.symptomsForm.get('sForm') as FormArray;
 
-        console.log("SymptomsArray list have: ")
-        console.log(this.allSymptoms)
-        
+        if (check) {
+            sForm.push(new FormControl(value));
+            this.allSymptoms.push(value);
+        } else {
+            this.remove(value, check,sForm, this.allSymptoms);            
+        }
     }
     
-    remove(value, array){
-        return array.filter(item => item !== value)
+    remove(value, check, formArray, array){
+        let i: number = 0;
+        formArray.controls.forEach((item: FormControl) => {
+            if (item.value == check.target.value) {
+                formArray.removeAt(i);
+                array.filter(item => item !== value)
+                return;
+            }
+            i++;
+        });
+        
     }
     
     findDisease(symptoms) {
@@ -101,7 +109,7 @@ export class EditComponent {
                     console.log("type of array with symptoms is: ")
                     console.log(typeof(this.getSymptoms))
 
-                    // // Symptoms recovery procedure. Collecting all selectors with symptoms ids
+                    // Symptoms recovery procedure. Collecting all selectors with symptoms ids
                     // const nodeList = document.querySelectorAll('[id^="symptom"]') as NodeListOf<HTMLInputElement>;
                     // console.log("NodeList is. ")
                     // console.log(nodeList)
@@ -142,4 +150,5 @@ export class EditComponent {
     }
     
 }
-
+//---------------- REFERENCES -------------------------------//
+// https://remotestack.io/angular-checkboxes-tutorial-example/

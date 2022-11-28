@@ -108,7 +108,7 @@ namespace Symptomizer_v2.Controllers
             return BadRequest("Inputs' validation failed");
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<ActionResult> LoggIn(User user)
         {
             if (ModelState.IsValid)
@@ -127,10 +127,13 @@ namespace Symptomizer_v2.Controllers
             return BadRequest("Fail in input validation on server side");
         }
         
-        [HttpPost]
+        [HttpPost("logout")]
         public void LoggOut()
         {
             HttpContext.Session.SetString(_loggedIn, "");
         }
     }
 }
+
+//----Some referrences --------------------------------------//
+// https://oslomet.instructure.com/courses/24253/pages/sessions?module_item_id=452360

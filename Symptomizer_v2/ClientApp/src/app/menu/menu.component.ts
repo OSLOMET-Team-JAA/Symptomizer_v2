@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {Router} from "@angular/router";
+import {User} from "../User";
 
 @Component({
     selector: 'app-menu',
@@ -6,6 +9,8 @@ import { Component } from '@angular/core';
 })
 export class MenuComponent {
     showMenu = false;
+    constructor(private http: HttpClient, private router: Router){}
+    
     show() {
         this.showMenu = false;
     }
@@ -13,4 +18,13 @@ export class MenuComponent {
         this.showMenu = !this.showMenu;
     }
 
+    // logout(){
+    //     this.http.post("api/Patient/logout",)
+    //         .subscribe(resp => {
+    //             console.log(resp);
+    //             this.router.navigate(['/login']);
+    //         })
+    //    
+    // }
+    
 }

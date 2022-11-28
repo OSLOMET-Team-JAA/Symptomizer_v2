@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -10,7 +10,8 @@ import { AddComponent } from './add/add.component';
 import { EditComponent } from './edit/edit.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Modal } from './home/delete-modal'
+import { Modal } from './home/delete-modal';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
     declarations: [
@@ -20,6 +21,7 @@ import { Modal } from './home/delete-modal'
         AddComponent,
         EditComponent,
         Modal,
+        LoginComponent,       
     ],
     imports: [
         BrowserModule,
@@ -31,6 +33,6 @@ import { Modal } from './home/delete-modal'
     ],
     providers: [],
     bootstrap: [AppComponent],
-    entryComponents: [Modal] //Attention!
+    entryComponents: [Modal] 
 })
 export class AppModule { }

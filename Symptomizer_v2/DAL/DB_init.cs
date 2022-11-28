@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Text;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Symptomizer_v2.Models;
 
@@ -30,6 +31,7 @@ namespace Symptomizer_v2.DAL
                 //--Creating predefined user -------------------------------//
                 var user = new Users
                 {
+                    Id = 1,
                     Username = "Admin"
                 };
                 var password = "Admin123";

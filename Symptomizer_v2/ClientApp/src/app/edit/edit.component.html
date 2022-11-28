@@ -20,11 +20,14 @@
             <!--- Patient's symptoms --------------------->
 
             <h4>What symptoms do you have?</h4>
-            <form [formGroup]="symptomsForm" (ngSubmit)="onSubmit()">
-                <div *ngFor="let symptom of symptomsList">
-                    <input type="checkbox" id="symptom{{ symptom.id }}" [value]="symptom.name" (change)="onChange(symptom.name, $event.target.checked)" />
+            <form [formGroup]="symptomsForm" (ngSubmit)="onSubmit()" novalidate>
+                <div *ngFor="let symptom of symptomsList; let i=index">
+                    <input type="checkbox" id="symptom{{ symptom.id }}" [value]="symptom.name" (change)="onChange($event)" />
                     {{ symptom.name }}
-                </div>                
+                </div>
+                <p class="error" *ngIf="this.symptomsForm.controls['sForm'].errors?.required">
+                    Minimum 1 checkbox value is required.
+                </p>
             </form>
             <hr/>
             <h5>List of symptoms before correction:</h5>

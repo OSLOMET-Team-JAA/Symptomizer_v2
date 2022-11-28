@@ -184,3 +184,6 @@ namespace Symptomizer_v2.DAL
         }
     }
 }
+
+//----Some referrences --------------------------------------//
+// https://oslomet.instructure.com/courses/24253/pages/sessions?module_item_id=452360
