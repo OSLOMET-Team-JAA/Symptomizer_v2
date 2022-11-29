@@ -11,3 +11,5 @@ Prosjektet har det samme back-end som det hadde fra forrige versjon med noen mod
  
 
 I tillegg, prosjektet inkludere tester som heter PatientTester som er bygd ved bruk av xUnit templates. 
+
+Applikasjon bruker 3.1 ASP.Net, Agular Prosjekt CLI 14.10.1, Node v 16.18.1
