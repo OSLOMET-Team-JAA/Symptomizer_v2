@@ -15,6 +15,7 @@ namespace Symptomizer_v2.Controllers
         private IPatientRepository _db;
         private ILogger<PatientController> _log;
         private const string _loggedIn = "loggedIn";
+        private const string _NotLoggedIn = "";
 
         public PatientController(IPatientRepository db, ILogger<PatientController> log)
         {
@@ -26,7 +27,7 @@ namespace Symptomizer_v2.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Patient was not created");
             }
             if (ModelState.IsValid)
             {
@@ -48,7 +49,7 @@ namespace Symptomizer_v2.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Patients not found");
             }
             List<Patient> allPatients = await _db.FindAll();
             //We can also use "var allPatients" instead of List<> (List<> usage not required)
@@ -60,15 +61,15 @@ namespace Symptomizer_v2.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Cannot delete! Login first!");
             }
             bool returnOk = await _db.DeletePatient(id);
             if (!returnOk)
             {
                 _log.LogInformation("Patient was not deleted");
-                return NotFound("Customer was not deleted");
+                return NotFound("Patient was not deleted");
             }
-            return Ok("Customer was deleted");
+            return Ok("Patient was deleted");
         }
 
         [HttpGet("{id}")]
@@ -76,13 +77,13 @@ namespace Symptomizer_v2.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Patient not found! You must login first!");
             }
             Patient foundPatient = await _db.FindPatient(id);
             if (foundPatient == null)
             {
                 _log.LogInformation("Patient was not found");
-                return NotFound("Customer was not found");
+                return NotFound("Patient was not found");
             }
             return Ok(foundPatient);
         }
@@ -92,15 +93,15 @@ namespace Symptomizer_v2.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(_loggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Patient's info was not changed! You must login first!");
             }
             if (ModelState.IsValid)
             {
                 bool returnOk = await _db.EditPatient(eP);
                 if (!returnOk)
                 {
-                    _log.LogInformation("Patient's info was not changed");
-                    return BadRequest("Patient's info was not changed");
+                    _log.LogInformation("Patient not found");
+                    return NotFound("Patient not found");
                 }
                 return Ok("Patient's info was changed");
             }
@@ -116,15 +117,15 @@ namespace Symptomizer_v2.Controllers
                 bool returnOk = await _db.LoggIn(user);
                 if (!returnOk)
                 {
-                    _log.LogInformation("Failed to logg in with user name: {UserName}", user.Username);
-                    HttpContext.Session.SetString(_loggedIn, "");
+                    _log.LogInformation("Failed to logg in with user");
+                    HttpContext.Session.SetString(_loggedIn, _NotLoggedIn);
                     return Ok(false);
                 }
-                HttpContext.Session.SetString(_loggedIn, "loggedIn");
+                HttpContext.Session.SetString(_loggedIn, _loggedIn);
                 return Ok(true);
             }
             _log.LogInformation("Fail in input validation");
-            return BadRequest("Fail in input validation on server side");
+            return BadRequest("Fail in input validation");
         }
         
         [HttpPost("logout")]
