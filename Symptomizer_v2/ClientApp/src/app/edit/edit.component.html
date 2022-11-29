@@ -1,5 +1,5 @@
-﻿<div class="container">
-    <div class="col-md-5">
+﻿<div class="parent container d-flex justify-content-center a-items-center">
+    <div class="child col-md-5">
         <form [formGroup]="dataForm" (ngSubmit)="onSubmit()" class="form-group border p-3">
             <h3>Patient's Credentials</h3>
             <input type="hidden" id="id" />
@@ -31,8 +31,8 @@
             </form>
             <hr/>
             <h5>List of symptoms before correction:</h5>
-            <ul *ngFor="let s of this.getSymptoms">
-                <li>{{ s }}</li>
+            <ul class="list-group" *ngFor="let s of this.getSymptoms">
+                <li class="ml-2 my-0">{{ s }}</li>
             </ul>
             <br>
             <div class="form-group">

@@ -131,7 +131,7 @@ namespace Symptomizer_v2.Controllers
         [HttpPost("logout")]
         public void LoggOut()
         {
-            HttpContext.Session.SetString(_loggedIn, "");
+            HttpContext.Session.SetString(_loggedIn, _NotLoggedIn);
         }
     }
 }

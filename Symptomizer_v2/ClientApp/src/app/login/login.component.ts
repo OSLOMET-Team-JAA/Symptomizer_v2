@@ -32,6 +32,10 @@ export class LoginComponent implements OnInit {
       password: [null, [Validators.required, Validators.pattern("(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}")]]
     });
   }
+    showPassword() {
+        document.getElementById('username').innerHTML = "Username: Admin";
+        document.getElementById('password').innerHTML = "Password: Admin123";
+    }
 
   onSubmit() {
       this.loginSubmission();

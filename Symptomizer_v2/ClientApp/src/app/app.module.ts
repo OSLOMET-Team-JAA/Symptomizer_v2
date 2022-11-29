@@ -6,6 +6,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { MenuComponent } from './menu/menu.component';
+import { FooterComponent } from './menu/footer.component';
 import { AddComponent } from './add/add.component';
 import { EditComponent } from './edit/edit.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +19,7 @@ import { LoginComponent } from './login/login.component';
         AppComponent,
         HomeComponent,
         MenuComponent,
+        FooterComponent,
         AddComponent,
         EditComponent,
         Modal,

@@ -18,13 +18,13 @@ export class MenuComponent {
         this.showMenu = !this.showMenu;
     }
 
-    // logout(){
-    //     this.http.post("api/Patient/logout",)
-    //         .subscribe(resp => {
-    //             console.log(resp);
-    //             this.router.navigate(['/login']);
-    //         })
-    //    
-    // }
+     logout(){
+         this.http.post("api/Patient/logout", User)
+             .subscribe(resp => {
+                 console.log(resp);
+                 this.router.navigate(['/login']);
+             })
+        
+     }
     
 }

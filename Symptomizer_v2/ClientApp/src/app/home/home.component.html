@@ -1,31 +1,33 @@
-<div class="container">   
-    <h2>   List of patients: </h2>
-    <div>
-        <div class="col-md-12">
-            <div *ngIf="loader">Loading...</div>
-            <table class="table table-bordered table-condensed">
-                <thead>
-                    <tr>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>Symptoms</th>
-                        <th>Disease</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let patient of allPatients">
-                    <tr>
-                        <td>{{ patient.firstname }}</td>
-                        <td>{{ patient.lastname }}</td>
-                        <td>{{ patient.symptoms }}</td>
-                        <td>{{ patient.disease }}</td>
-                        <td><button class="btn btn-danger" (click)="deletePatient(patient.id)">Delete</button></td>
-                        <td><button class="btn btn-success" [routerLink]="['/edit',patient.id]">Edit</button></td>
-                    </tr>
-                </tbody>
-            </table>
-            <button class='btn btn-primary' routerLink="/add">Add new patient</button>
+<div class="parent container d-flex justify-content-center a-items-center">  
+    <div class="child">        
+        <div>
+            <div class="col-md-12">
+                <h2>   List of patients: </h2>
+                <div *ngIf="loader">Loading...</div>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>First name</th>
+                            <th>Last name</th>
+                            <th>Symptoms</th>
+                            <th>Disease</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let patient of allPatients">
+                        <tr>
+                            <td>{{ patient.firstname }}</td>
+                            <td>{{ patient.lastname }}</td>
+                            <td>{{ patient.symptoms }}</td>
+                            <td>{{ patient.disease }}</td>
+                            <td><button class="btn btn-danger" (click)="deletePatient(patient.id)">Delete</button></td>
+                            <td><button class="btn btn-success" [routerLink]="['/edit',patient.id]">Edit</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class='btn btn-primary' routerLink="/add">Add new patient</button>
+            </div>
         </div>
-    </div>
+    </div>    
 </div>

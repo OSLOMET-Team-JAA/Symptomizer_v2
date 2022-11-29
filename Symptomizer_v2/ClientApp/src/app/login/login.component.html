@@ -1,5 +1,5 @@
-<div class="container">
-    <div class="col-md-5">
+<div class="parent container d-flex justify-content-center align-items-center h-50" style="min-height: 80vh">
+    <div class="child col-md-5">
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-group border p-3">
             <h3>Login</h3>
             <input type="hidden" id="id" />
@@ -7,20 +7,23 @@
                 <label>Username</label>
                 <input class="form-control" formControlName="username" placeholder="Enter username here..." />
                 <p class="alert alert-warning" [hidden]="loginForm.controls.username.valid || (loginForm.controls.username.pristine && !submitted)">
-                    Username is required.
+                    Username is required. Min 2 symbols
                 </p>
             </div>
             <div class="form-group">
                 <label>Password</label>
                 <input class="form-control" formControlName="password" placeholder="Enter password here..." />
                 <p class="alert alert-warning" [hidden]="loginForm.controls.password.valid || (loginForm.controls.password.pristine && !submitted)">
-                    Password is required.
+                    Password is required. Min 8 symbols.
                 </p>
             </div>
-            
-            <div class="form-group">
+
+            <div class="form-group d-flex">
                 <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary">Login</button>
+                <a class="nav-link text-dark ml-4" (click)="showPassword()">Forgot Password?</a>
             </div>
+            <div class="form-group" id="username"></div>
+            <div class="form-group" id="password"></div>            
         </form>
     </div>
 </div>
