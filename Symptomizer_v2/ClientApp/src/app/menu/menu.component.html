@@ -1,24 +1,24 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
         <div class="container">
-            <a class="navbar-brand" routerLink="/">Symptomizer</a>
+            <a class="navbar-brand" routerLink="/home">Symptomizer</a>
             <button class="navbar-toggler"
                     type="button"
                     data-toggle="collapse"
                     data-target=".navbar-collapse"
                     aria-label="Toggle navigation"
                     [attr.aria-expanded]="isExpanded"
-                    (click)="toggle()">
+                    (click)="switch()">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
                  [ngClass]="{ show: isExpanded }">
                 <ul class="navbar-nav flex-grow">
                     <li class="nav-item">
-                        <a class="nav-link text-light" routerLink="/">Home</a>
+                        <a class="nav-link text-light" routerLink="/home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" routerLink="/lagre">Add</a>
+                        <a class="nav-link text-light" routerLink="/add">Add</a>
                     </li>
                     <li class="nav-item">
                         <button type="submit" class="btn btn-primary" (click)="logout()">Logout</button>
